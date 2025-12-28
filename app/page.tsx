@@ -1,10 +1,14 @@
-import React from 'react'
+import Link from "next/link";
 
-const page = () => {
-  console.log("page running")
+const Home = () => {
+  console.log("page rendered");
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      Home Page
+      <br />
+      <Link href="/second">Go to Second Page</Link>
+    </div>
+  );
+};
 
-export default page
+export default Home;
