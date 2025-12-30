@@ -3,7 +3,7 @@ import { getMockPhotos } from "./lib/fetchPhotos";
 import Image from "next/image";
 const GalleryPage = async () => {
   const photos = await getMockPhotos();
- 
+
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Gallery</h1>
@@ -13,11 +13,11 @@ const GalleryPage = async () => {
             <div className="relative w-full h-48">
               <Image
                 src={photo.imageUrl}
+             
                 alt={photo.title}
-              
-                width={100}
-                height={100}
-                className="object-cover rounded"
+                width={400}
+                height={300}
+                className="w-full h-auto"
               />
             </div>
             <h2 className="mt-2 font-semibold">{photo.title}</h2>
