@@ -4,6 +4,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 const UploadPage = () => {
   const [title, setTitle] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
+  const [uploadedUrl, setUploadedUrl] = useState("");
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -16,17 +17,19 @@ const UploadPage = () => {
       alert("Please select a file to upload.");
       return;
     }
+
     try {
-      const res = fetch("/api/photos", {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("title", title);
+
+      const response = await fetch("/api/photos", {
         method: "POST",
-        body: JSON.stringify({ title, file }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: formData,
       });
-      const result = await (await res).json();
-      console.log("Upload result:", result);
-      alert("Photo uploaded!");
+      const data = await response.json();
+      setUploadedUrl(data.url);
+      alert("Photo uploaded successfully!");
     } catch (err) {
       console.error(err);
       alert("Upload failed.");
@@ -62,6 +65,13 @@ const UploadPage = () => {
           upload
         </button>
       </form>
+      {uploadedUrl && (
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-2">Uploaded Photo:</h2> 
+          <img src={uploadedUrl} alt={title} className="max-w-xs" />
+        </div>
+      )}
+      
     </main>
   );
 };

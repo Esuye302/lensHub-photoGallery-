@@ -1,19 +1,14 @@
-
+import fs from "fs";
+import path from "path";
 import { Photo } from "../types/photo";
 
-export async function getMockPhotos(): Promise<Photo[]> {
-    return [
-    {
-      id: "1",
-      title: "Sunset",
-      imageUrl: "https://example.com/photos/sunset.jpg",
-      createdAt: "2023-01-01T12:00:00Z",
-    },
-    {
-      id: "2",
-      title: "Mountain",
-      imageUrl: "https://example.com/photos/mountain.jpg",
-      createdAt: "2023-01-02T12:00:00Z",
-    },
-  ];
+export function getAllPhotos(): Photo[] {
+  const uploadsDir = path.join(process.cwd(), "public/uploads");
+  const metadataPath = path.join(uploadsDir, "metadata.json");
+
+  if (!fs.existsSync(metadataPath)) {
+    return [];
+  }
+
+  return JSON.parse(fs.readFileSync(metadataPath, "utf-8")) as Photo[];
 }
