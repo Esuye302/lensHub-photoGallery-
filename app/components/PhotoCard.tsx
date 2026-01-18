@@ -1,24 +1,31 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Photo } from "../types/photo";
 
 const PhotoCard = ({ photo }: { photo: Photo }) => {
-console.log(photo)
   return (
-
-
-    <div className="flex flex-col items-center">
-      <div className="relative w-full h-48">
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.2 }}
+      className="group bg-neutral-900 rounded-xl overflow-hidden shadow-md hover:shadow-xl"
+    >
+      <div className="relative aspect-[4/5] w-full">
         <Image
           src={photo.url}
           alt={photo.title}
           fill
-
-          className="object-contain rounded"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
-      <h2 className="mt-2 font-semibold">{photo.title}</h2>
 
-    </div>
+      <div className="p-3">
+        <h2 className="text-sm font-medium text-neutral-300 truncate">
+          {photo.title}
+        </h2>
+      </div>
+    </motion.div>
   );
 };
 
